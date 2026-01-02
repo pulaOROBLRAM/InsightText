@@ -1,5 +1,29 @@
+import json
+import subprocess
+import sys
 import re
 from collections import Counter
+
+# --- Auto-install missing dependencies ---
+try:
+    with open("requirements.json") as f:
+        deps = json.load(f).get("dependencies", [])
+        for pkg in deps:
+            try:
+                __import__(pkg)  # Try importing the package
+            except ImportError:
+                print(f"Installing missing package: {pkg} ...")
+                subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+except FileNotFoundError:
+    print("requirements.json not found. Skipping auto-install.")
+
+
+# --- Now you can safely import optional packages ---
+# import nltk
+# import textblob
+
+import nltk
+import textblob
 
 # --- Input ---
 text = input("Paste your text:\n")
