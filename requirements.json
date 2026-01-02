@@ -1,5 +1,8 @@
 {
   "dependencies": [
+    "torch",
+    "transformers",
+    "hf_xet",
     "nltk",
     "textblob"
   ]
